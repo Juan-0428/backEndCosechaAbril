@@ -1,0 +1,67 @@
+# ====================================
+# Java
+# ====================================
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Build directories
+/build/
+/dist/
+/target/
+/out/
+
+# ====================================
+# NetBeans
+# ====================================
+
+# NetBeans private settings
+nbproject/private/
+
+# Generated build-impl.xml (NetBeans auto-generated)
+nbproject/build-impl.xml
+
+# ====================================
+# IDE-specific
+# ====================================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# ====================================
+# OS-specific
+# ====================================
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
