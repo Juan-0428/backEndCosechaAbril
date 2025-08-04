@@ -11,6 +11,7 @@ import Application.Services.Service_Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
+import java.util.HashSet;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.function.ServerRequest.Headers;
@@ -125,7 +127,39 @@ public class Controller_product extends Controller {
         }
 
     }
-
+    
+    @PostMapping("/reference")
+    public ResponseEntity<Map<String, Object>> SearchProduct(HttpServletResponse response, HttpServletRequest request, @RequestParam("ref") String reference, @RequestBody Map<String, Object> body){
+   try{
+       List<Entity_Products> list_products = this.service.consultByCategory(reference);
+       Set<Entity_Products> set = new HashSet<>(list_products); //REMOVE DUPLICATES
+       Map<String, Object> map_products = mapper.convertValue(set, Map.class);
+       Iterator<String> keys  = map_products.keySet().iterator();
+       while(keys.hasNext()){
+          
+          Map<String, Object> sub_map = (Map<String, Object>) map_products.get(keys.next());
+          for(String sub_keys: sub_map.keySet()){
+            if(sub_keys == "IDENTIFICACION_PRODUCTO"){
+               int cantidadProducto = this.service.NumeroProducto(reference);
+                if(cantidadProducto == 0){
+                    sub_map.put("Stade", "Agotado");
+                }
+                else{
+                    sub_map.put("Stade", "Disponible");
+                }
+           }
+           }
+       }
+       return new Response(map_products, HttpStatus.CONTINUE);
+   }
+    
+   catch(Exception e){
+       e.printStackTrace();
+       return new ResponseEntity(Map.of("Error", e.getMessage()), HttpStatus.FAILED_DEPENDENCY);
+   }
+   
+    
+    
     public ResponseEntity<JSONObject> Confirmar_Compra(@RequestParam("idTransaccion") String identificacion, @RequestBody JSONObject body, HttpServletRequest request) {
         try {
             //PayuClient payuClient = PayuClient.init("YOUR_KEY", "YOUR_SALT");

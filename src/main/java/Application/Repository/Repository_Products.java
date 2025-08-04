@@ -35,4 +35,10 @@ public interface Repository_Products extends JpaRepository<Entity_Products, Long
     WHERE p.usuario.identificacionUsuario = :id
     """)
     Entity_User findByIdentificacionPropietario(@Param("id") String identificacion);
+    
+    @Query("""
+           SELECT p.cantidadProducto
+           FROM Entity_Products p
+           """)
+    int findByIdentificacionProducto(@Param("id") String identificacion);
 }

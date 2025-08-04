@@ -32,4 +32,5 @@ public class Service_User implements Services<Entity_User> {
         List<Entity_User> resultado = this.Repo.findByIdentificacionUsuario(ID);
         return resultado;
     }
+   
 }

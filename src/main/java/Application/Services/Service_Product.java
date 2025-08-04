@@ -4,6 +4,7 @@
  */
 package Application.Services;
 
+import Application.Entities.Category_Product;
 import Application.Entities.Entity_Products;
 import Application.Entities.Entity_User;
 import Application.Repository.Repository_Category_Products;
@@ -23,6 +24,7 @@ public class Service_Product implements Services<Entity_Products>{
     
     @Autowired
     private Repository_Products repository;
+
     
     @Autowired
     private Repository_Category_Products categoria;
@@ -47,4 +49,12 @@ public class Service_Product implements Services<Entity_Products>{
        this.repository.delete(producto);
        this.categoria.decrementCantidadProductoById(producto.getCategoriaProducto().getIdentificacionCategoria());
    }
-}
+   
+   public List<Entity_Products> consultByCategory(String reference){
+       return this.categoria.findByIdentificacionCategoria(reference);
+   }
+   
+   public int NumeroProducto(String identificacionProducto){
+       return this.repository.findByIdentificacionProducto(identificacionProducto);
+   }
+   }

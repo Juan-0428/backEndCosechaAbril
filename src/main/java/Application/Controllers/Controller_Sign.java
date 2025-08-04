@@ -82,13 +82,13 @@ public class Controller_Sign extends Controller{
     @PostMapping("/log-in")
     public ResponseEntity<Map<String, Object>> Log_in(HttpServletRequest request, @RequestBody Map<String,Object> body){
         try{
-            Object user = this.service.Consultar((String) (body.get("IDENTIFICACION_USUARIO")));
-            if(!(user instanceof Entity_User) || user.equals(null)){
+            List<Entity_User> user = this.service.Consultar((String) (body.get("IDENTIFICACION_USUARIO")));
+            if(user.isEmpty() || user.equals(null) || user.contains(null)){
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.setPropertyNamingStrategy(PropertyNamingStrategies.UPPER_SNAKE_CASE);
                 Entity_User usuario = mapper.convertValue(body, Entity_User.class);
                 this.service.Almacenar(usuario);
-                JSONObject jsonObject = new JSONObject(mapper.convertValue(usuario, Map.class));
+                JSONObject jsonObject = new JSONObject(mapper.convertValue(body, Map.class));
                 HttpHeaders headers = new HttpHeaders();
                 headers.set("URL", "/sign");
                 String identificacion = jsonObject.getString("IDENTIFICACION_USUARIO");

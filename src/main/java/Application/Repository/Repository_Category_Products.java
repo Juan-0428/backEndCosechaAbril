@@ -5,7 +5,9 @@
 package Application.Repository;
 
 import Application.Entities.Category_Product;
+import Application.Entities.Entity_Products;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +24,8 @@ public interface Repository_Category_Products extends JpaRepository<Category_Pro
     @Modifying
     @Query("UPDATE Category_Product c SET c.cantidadProductos = c.cantidadProductos - 1 WHERE c.identificacionCategoria = :id")
     void decrementCantidadProductoById(@Param("id") String id);
+    
+    @Query("SELECT p FROM Entity_Products p WHERE p.identificacionCategoria = :identificacion")
+    List<Entity_Products> findByIdentificacionCategoria(String identifcacion);
 }
           
